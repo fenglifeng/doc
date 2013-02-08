@@ -1,0 +1,189 @@
+可重入函数：可重入即表示重复进入，首先意味着这个函数可以被中断；其次意味着它除了使用自己栈上的资源以外不依赖任何环境(包括static),这样的函数就是可重入的，可以允许有该函数的多个副本在运行，由于他们使用的是分离的栈，所以不会相互干扰。如果确实需要访问全局变量(包括static)，一定要用注意实施互斥手段。
+
+1) SIGHUP
+本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端不再关联。
+登录Linux时，系统会分配给登录用户一个终端(Session)。在这个终端运行的所有程序，包括前台进程组和后台进程组，一般都属于这个 Session。当用户退出Linux登录时，前台进程组和后台有对终端输出的进程将会收到SIGHUP信号。这个信号的默认操作为终止进程，因此前台进 程组和后台有终端输出的进程就会中止。不过可以捕获这个信号，比如wget能捕获SIGHUP信号，并忽略它，这样就算退出了Linux登录，wget也 能继续下载。
+此外，对于与终端脱离关系的守护进程，这个信号用于通知它重新读取配置文件。
+
+2) SIGINT
+程序终止(interrupt)信号, 在用户键入INTR字符(通常是Ctrl-C)时发出，用于通知前台进程组终止进程。
+
+3) SIGQUIT
+和SIGINT类似, 但由QUIT字符(通常是Ctrl-/)来控制. 进程在因收到SIGQUIT退出时会产生core文件, 在这个意义上类似于一个程序错误信号。
+
+4) SIGILL
+执行了非法指令. 通常是因为可执行文件本身出现错误, 或者试图执行数据段. 堆栈溢出时也有可能产生这个信号。
+
+5) SIGTRAP
+由断点指令或其它trap指令产生. 由debugger使用。
+
+6) SIGABRT
+调用abort函数生成的信号。
+
+7) SIGBUS
+非法地址, 包括内存地址对齐(alignment)出错。比如访问一个四个字长的整数, 但其地址不是4的倍数。它与SIGSEGV的区别在于后者是由于对合法存储地址的非法访问触发的(如访问不属于自己存储空间或只读存储空间)。
+
+8) SIGFPE
+在发生致命的算术运算错误时发出. 不仅包括浮点运算错误, 还包括溢出及除数为0等其它所有的算术的错误。
+
+9) SIGKILL
+用来立即结束程序的运行. 本信号不能被阻塞、处理和忽略。如果管理员发现某个进程终止不了，可尝试发送这个信号。
+
+10) SIGUSR1
+留给用户使用
+试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.
+
+12) SIGUSR2
+留给用户使用
+
+13) SIGPIPE
+管道破裂。这个信号通常在进程间通信产生，比如采用FIFO(管道)通信的两个进程，读管道没打开或者意外终止就往管道写，写进程会收到SIGPIPE信号。此外用Socket通信的两个进程，写进程在写Socket的时候，读进程已经终止。
+
+14) SIGALRM
+时钟定时信号, 计算的是实际的时间或时钟时间. alarm函数使用该信号.
+
+15) SIGTERM
+程序结束(terminate)信号, 与SIGKILL不同的是该信号可以被阻塞和处理。通常用来要求程序自己正常退出，shell命令kill缺省产生这个信号。如果进程终止不了，我们才会尝试SIGKILL。
+
+17) SIGCHLD
+子进程结束时, 父进程会收到这个信号。
+
+如果父进程没有处理这个信号，也没有等待(wait)子进程，子进程虽然终止，但是还会在内核进程表中占有表项，这时的子进程称为僵尸进程。这种情 况我们应该避免(父进程或者忽略SIGCHILD信号，或者捕捉它，或者wait它派生的子进程，或者父进程先终止，这时子进程的终止自动由init进程来接管)。
+
+18) SIGCONT
+让一个停止(stopped)的进程继续执行. 本信号不能被阻塞. 可以用一个handler来让程序在由stopped状态变为继续执行时完成特定的工作. 例如, 重新显示提示符...
+
+19) SIGSTOP
+停止(stopped)进程的执行. 注意它和terminate以及interrupt的区别:该进程还未结束, 只是暂停执行. 本信号不能被阻塞, 处理或忽略.
+
+20) SIGTSTP
+停止进程的运行, 但该信号可以被处理和忽略. 用户键入SUSP字符时(通常是Ctrl-Z)发出这个信号
+
+21) SIGTTIN
+当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN信号. 缺省时这些进程会停止执行.
+
+22) SIGTTOU
+类似于SIGTTIN, 但在写终端(或修改终端模式)时收到.
+
+23) SIGURG
+有"紧急"数据或out-of-band数据到达socket时产生.
+
+24) SIGXCPU
+超过CPU时间资源限制. 这个限制可以由getrlimit/setrlimit来读取/改变。
+
+25) SIGXFSZ
+当进程企图扩大文件以至于超过文件大小资源限制。
+
+26) SIGVTALRM
+虚拟时钟信号. 类似于SIGALRM, 但是计算的是该进程占用的CPU时间.
+
+27) SIGPROF
+类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的时间.
+
+28) SIGWINCH
+窗口大小改变时发出.
+
+29) SIGIO
+文件描述符准备就绪, 可以开始进行输入/输出操作.
+
+30) SIGPWR
+Power failure
+
+31) SIGSYS
+非法的系统调用。
+
+ 
+
+在以上列出的信号中，程序不可捕获、阻塞或忽略的信号有:SIGKILL,SIGSTOP
+不能恢复至默认动作的信号有:SIGILL,SIGTRAP
+默认会导致进程流产的信号有:SIGABRT,SIGBUS,SIGFPE,SIGILL,SIGIOT,SIGQUIT,SIGSEGV,SIGTRAP,SIGXCPU,SIGXFSZ
+默认会导致进程退出的信号有:SIGALRM,SIGHUP,SIGINT,SIGKILL,SIGPIPE,SIGPOLL,SIGPROF,SIGSYS,SIGTERM,SIGUSR1,SIGUSR2,SIGVTALRM
+默认会导致进程停止的信号有"SIGSTOP,SIGTSTP,SIGTTIN,SIGTTOU
+默认进程忽略的信号有:SIGCHLD,SIGPWR,SIGURG,SIGWINCH
+
+
+shell中的kill:不带参数的话发送的是SIGTERM，可以被阻塞和无视，无视的可能行很大。kill -9的话就是发送SIGKILL
+SIGINT是有Ctrl＋C触发的
+
+unix中最简单的信号函数就是signal
+void (*signal(int signo,void(*func)(int))(int)
+for:signal(SIGUSR1,sigusr)
+其中sigusr要是可重入的函数。
+
+kill函数将信号发送给进程或者进程组
+int kill(pid_t pid,int signo)
+pid>0 发送给id为pid的进程
+pid==0 发送给发送进程同一组的所有进程
+pid《0 绝对值为Pid的进程
+pid ==-1 发送给发送进程有权限向它们发送信号的系统上的所有进程
+raise向自身进程发信号
+int raise(int signo)
+raise(sig) 等价于kill(getpid(),sig)
+
+alarm是一个定时器，当时间溢出后会产生一个SIGALRM信号，如果不忽略或者不捕获该信号，其默认动作是终止调用该alarm函数的进程
+unsigned int alarm(unsigned int seconds)
+
+pause使进程挂起直至捕获到一个信号
+int pause(void)
+
+alarm可以有唤醒阻塞的功能
+for:
+	alarm(10);
+	if(read(fd,buf,MAXBUFLEN)<0){
+		exit(1);
+	}
+	alarm(0);
+上面代码中，如果read阻塞十秒以上，那么read就会被alarm唤醒，进入SIGALRM信号的消息句柄里。再返回read就已经是非阻塞了，返回error
+同样用alarm可以唤醒sleep
+
+信号集：
+int sigemptyset(sigset_t *set)
+int sigfillset(sigset_t *set)
+int sigaddset(sigset_t *set)
+int sigdelset(sigset_t *set)
+//以上四个函数，成功返回0，出错返回-1
+int sigisemember(const sigset_t *set,int signo)//返回1为真，0为假，出错为-1
+
+int sigprocmask(int how,const sigset_t *restrict set,const sigset_t *restrict oset) //检测或修改其信号屏蔽字
+int sigpending(sigset_t *set)
+int sigaction(int signo,const struct sigaction *restrict act,struct sigaction *restrict oact)
+
+select 
+#include <sys/select.h>
+int select(int maxfd,fd_set *readfds,fd_set *writefds,fd_set *exceptfds,struct timeval *timeout)
+readfds,writefds,exceptfds要让内核测试读、写、异常
+void FD_ZERO(fd_set *fdset)
+void FD_SET(int fd,fd_set *fdset)
+void FD_CLR(int fd,fd_set *fdset)
+int  FD_ISSET(int fd,fd_set *fdset)
+如果我们对读、写、异常中其中一个不感兴趣，可以将设置成NULL
+其实可以这么理解,select就是对0～maxfd(不包括maxfd)的文件描述符里做轮寻，当检测到描述符信号变话后，唤醒，相应的fds被置位
+但是由于内核中对描述符有个最大的限制，也就是select至多监控256个文件描述符。
+
+poll
+#include <poll.h>
+int poll(struct pollfd *fdarray,unsigned long nfds,int timeout)
+返回>0;数组fdarray中已经被激发的文件数量
+==0 ;超时了，都没有被激发的文件
+==-1;表示poll发生错误
+struct pollfd{
+	int fd; 	//文件描述符
+	short events; 	//等待的事件
+	showr revents; 	//实际发生了的事件
+}
+timeout 的单位是ms
+事件描述符:
+events域中请求的任何事件都可能在revents域中返回。合法的事件如下：
+POLLIN 		 	有数据可读。
+POLLRDNORMi 	有普通数据可读。
+POLLRDBAND 		有优先数据可读。
+POLLPRI 		有紧迫数据可读。
+POLLOUT 		写数据不会导致阻塞。
+POLLWRNORM 		写普通数据不会导致阻塞。
+POLLWRBAND 		写优先数据不会导致阻塞。
+此外，revents域中还可能返回下列事件：
+POLLER 			指定的文件描述符发生错误。
+POLLHUP 		指定的文件描述符挂起事件。
+POLLNVAL  		指定的文件描述符非法。
+
+poll的效率比select高很多

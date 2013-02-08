@@ -1,0 +1,75 @@
+功能测试宏
+例子：
+include <stdio.h>
+int main(void)
+{
+
+#ifdef __HELLO__ 	//gcc -D__HELLO__ 	
+		printf("hello world\n");
+#else
+		printf("bye!\n");
+#endif
+
+}
+编译的时候加入-D__HELLO__编译
+
+
+文件描述符
+0、1、2按照一般情况常为：STDIN_FILENO,STOUT_FILENO,STDERR_FILENO
+
+open函数
+＃include <fcntl.h>
+int open(const char *pathname,int oflag,..../*for mode*/);
+oflag:
+O_RDONLY :只读
+O_WRONLY：只写
+O_RDWR：读写
+
+O_APPEND ： 每次写时都追加到文件尾端
+O_CREAT : 若文件不存在则创建它
+O_EXCL :如果使用上面那个选项，则文件已经存在会报错；不存在则创建文件
+O_TRUNC :如果文件已经存在，而且为只写或者读写成功打开，则将其长度截短为0
+O_NOCTTY :如果pathname是终端设备，则不将该设备分配作为此进程的控制终端
+O_NONBLOCK : 非阻塞
+
+O_DSYNC : 使每次write等待物理IO操作完成，如果写操作不影响读取刚写入的数据，则不等待文件属性被更新
+O_RSYNC : 使每一以文件描述符作为参数的read操作等待，直至任何对任何文件同一部分进行的未决写操作的完成
+O_SYNC :使每次write都等到物理IO操作完成。
+
+creat函数
+int creat(const char *pathname,mode_t mode);
+相当与open(pathname,0_WRONLY|O_CREAT|O_TRUNC,mode)
+
+lseek函数//文件偏移量
+off_t lseek(int fd,off_t,int whence)
+
+ssize_t pread(int fd,void *buf,size_t nbytes,off_t offset);
+相当于lseek+read
+ssize_t pwrite(int fd,void *buf,size_t nbytes,off_t offset);
+相当于lseek+write
+
+dup和dup2函数
+复制文件描述符
+
+sync、fsync、fdatasync函数
+int fsync(int fd)
+int fdatasync(int fd)
+void sync(void)
+
+sync函数只是将所有修改过的块缓冲区排入写队列，然后返回，它并不等待实际写磁盘操作结束。通常update的系统守护进程会周期性地调用sync函数（通常是30秒）
+fsync只对单一文件起作用，fdatasync只作用与文件的数据部分
+
+fcntl函数可以改变已打开文件的性质
+ioctl(int fd,int request,...)可用于与底层驱动的交互
+
+小结：read和write都在内核执行，这些函数称之为不带缓冲的I／O函数
+
+文件和目录
+stat、fstat、lstat
+int stat(const char *pathname,struct stat *restrict buf)
+int fstat(int fd,struct stat *buf)
+int lstat(const char *restrict pathname,struct stat *restrict buf)
+一旦给定pathname，则返回相对应的文件结构
+
+access(const char *pathname,int mode)用于权限测试
+
