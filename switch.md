@@ -10,7 +10,8 @@ ICMP报头：
 16bit:ID。ID值
 16bit：sequence。序号，比如ping中就有序号。
 
-关于TYPE、CODE可以参考以下链接[url]http://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%E6%B6%88%E6%81%AF%E5%8D%8F%E8%AE%AE[\url]
+关于TYPE、CODE可以参考以下链接[CODE、TYPE FOR ICMP](http://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E6%8E%A7%E5%88%B6%E6%B6%88%E6%81%AF%E5%8D%8F%E8%AE%AE)
+
 
 填充数据：
 可根据用户的需求，填充数据大小和信息。
