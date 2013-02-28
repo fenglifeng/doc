@@ -39,19 +39,23 @@ TCP／IP每一层的功能：
 
 DNS、HTTP、SMTP、Telnet、FTP这些都是比较常见的应用层协议，都在应用层中。
 
-＃传输层
+#传输层
 
 UDP:UDP是不可靠链接，是一种简单的无链接协议。它的有点在于开销低，缺点是它的不可靠性。UDP只需要8字节的开销
 
 UDP协议的常见应用：DNS；视频流；ip语音
 
-UDP数据报头：![Alt text](./image/udp_head.jpg)
+UDP数据报头：
+
+![Alt text](./image/udp_head.jpg)
 
 TCP是一种面向连接的协议，为实现这个额外的功能，会产生额外的开销。但是它的数据可靠。TCP需要20自己的开销。
 
 TCP的常见应用：WEB浏览器、电子邮件、文件传输程序
 
-TCP数据报头：![Alt text](./image/tcp_head.jpg)
+TCP数据报头：
+
+![Alt text](./image/tcp_head.jpg)
 
 端口，不同的程序，无论TCP或UDP都有自己特有的端口号，可以通过这个端口号，实现两个不同的应用程序数据的收发。
 
@@ -66,9 +70,14 @@ TCP三握手：客户端发送：SYNC；服务器收到SYNC后发送SYNC＋ACK�
 图：![Alt text](./image/tcp_concent.jpg)
 
 TCP会话终止是双向终止的，分四部：客户端发送FIN；服务器收到FIN后，发送ACK；服务器再向客户端发送FIN；客户端接收到FIN后，再发送ACK至服务器。
-图：![Alt text](./image/tcp_close.jpg)
 
-TCP状态转换图：![Alt text](./image/tcp_state.gif)
+图：
+
+![Alt text](./image/tcp_close.jpg)
+
+TCP状态转换图：
+
+![Alt text](./image/tcp_state.gif)
 
 TCP的流控，当发现有阻塞的时候，接收主机会让发送客户端，窗口减半。如客户端向主机先发送了1－3000的数据，主机发回确认号3001。但是在发3001－6000的时候，3001－4500的数据，主机没接收到，主机只收到4501－6000。所以主机会发报文给客户机，报文的确认码是3001，窗口值是1500。所以下次客户机发的数据就是3001－4500，窗口已经变成了1500。这个就是TCP的流控。
 TCP流控图，图见书本P81页。
