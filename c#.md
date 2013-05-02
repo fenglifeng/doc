@@ -1,5 +1,5 @@
 线性：
-
+----------
 c#中的数组必须先new一下，分配具体的空间；
 
 c#中画图可以用Graphics这个类，可以用以下代码获取消息句柄
@@ -34,20 +34,18 @@ c#中画图可以用Graphics这个类，可以用以下代码获取消息句柄
 
 	graphics.DrawString()
 
-##
------------
-chart控件：
 
+chart控件：
+-----------
 修改X、Y轴的左边间隔之类的都像chart.ChartAreas[0].AxisX.Minimum之类的，其中[0]为成员编号
 
 series设置图标的类型，比如是2d还是3d，是折线还是条形之类的。其中name可以修改，可以表示其颜色的数据，color可以设置其折线的颜色（假设是折线的话）；可以添加不同成员，用来表示不同数据。如果要添加数据节点最简单的方法是Chart1.Series[0].Points.AddXY(x,y);Chart1.Series[0].Points.RemoveAt(0);删除第0个数据
 
 在X.Designer.cs中有各种资源的初始化，所谓的构造函数就是如此
 
-##
--------------
-新窗口载入
 
+新窗口载入
+-------------
 	this.Visible = false;
 	Form2 picture = new Form2();
 	if (picture.ShowDialog() == DialogResult.Cancel)
@@ -59,9 +57,9 @@ series设置图标的类型，比如是2d还是3d，是折线还是条形之类�
 
 以上代码是新窗口载入的一种常见的方式，也就是其实是new一个新的窗口出来即可，然后show一下，在原窗口中还可以对新窗口的返回做判断，以便做后续的判断
 
-##
-多线程
 
+多线程
+-----------------
 C＃中的多线程是很简单的。
 
 
