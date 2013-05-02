@@ -35,6 +35,7 @@ c#中画图可以用Graphics这个类，可以用以下代码获取消息句柄
 	graphics.DrawString()
 
 ##
+-----------
 chart控件：
 
 修改X、Y轴的左边间隔之类的都像chart.ChartAreas[0].AxisX.Minimum之类的，其中[0]为成员编号
@@ -44,6 +45,7 @@ series设置图标的类型，比如是2d还是3d，是折线还是条形之类�
 在X.Designer.cs中有各种资源的初始化，所谓的构造函数就是如此
 
 ##
+-------------
 新窗口载入
 
 	this.Visible = false;
