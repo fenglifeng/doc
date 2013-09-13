@@ -85,3 +85,49 @@ $.get( "/users.php", {
 <link rel="stylesheet" href="css/themename/jquery-ui.custom.css" />
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-ui.custom.min.js"></script>
+18、多库共存：jQuery.noConflict();
+
+19:设置浮动块的时候，切记要打上position属性。因为默认情况下，所有 HTML 元素的位置都是静态的，并且无法移动。如需对位置进行操作，记得首先把元素的 CSS position 属性设置为 relative、fixed 或 absolute
+
+
+jquery ui doc  http://api.jqueryui.com/(按钮，日期，对话框，可拖动层，多层拖动重合，菜单栏，)
+中文文档：http://jquery-api-zh-cn.googlecode.com/svn/trunk/index.html
+使用插件，首先是要看文档，熟悉事件、属性、方法
+以slider(滑条)为例,min,max,range,values是属性,change和slide是事件
+<script>
+        $(function() {
+            $( "#slider" ).slider({
+                min:100,
+                max:255,
+                range: true,
+                values: [120,140],
+                change:function( event, ui ) {
+                    $("p").html(ui.value);
+                },
+                slide:function( event, ui ) {
+                    $("p").html(ui.value);
+                }
+            });
+        });
+    </script>
+
+<body>
+    <a href="http://jquery.com/">jQuery</a>
+    <h1>你大爷</h1>
+    <p>the  demo test</p>
+    <div left:200> i want to fly ,i can fly</div>
+    <div id="slider"></div>
+
+    <script>
+        $(function() {
+            $( "h1" ).html( "hello world" );    
+            $("p").click(function(event){
+                //$(this).slideUp( 800 ).slideDown(800);
+                //$( "p" ).fadeToggle( 400 );
+                
+            });
+
+        });
+
+    </script>
+</body>
